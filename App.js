@@ -1,35 +1,23 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+// App.js
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import LoginScreen from './login';
+import ForgotPasswordScreen from './forgot-password';
+import SignupScreen from './signup';
+
+const Stack = createStackNavigator();
 
 const App = () => {
   return (
-    <View
-      style={{
-      flex:1
-    }}>
-      <View style={{
-        flex:2,
-      }}>
-      <View style={{
-        width:100,height:100,backgroundColor:'red' 
-      }}>
-      </View>
-      </View>
-      <View style={{
-        flex:3,
-        justifyContent:'flex-end',
-        alignItems:'flex-end'
-      }}>
-      <View style={{
-        width:100,height:100,backgroundColor:'blue'
-        
-      }}>
-      </View>
-      </View>
-    </View>
-  )
-}
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="SignUp">
+        <Stack.Screen name="SignUp" component={SignupScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ headerShown: false }} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
-export default App
-
-const styles = StyleSheet.create({})
+export default App;
