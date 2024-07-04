@@ -1,9 +1,10 @@
 import { StyleSheet, View, Text, TextInput, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 
-const CustomButton = ({ text, color, onPress }) => {
+const CustomButton = ({ text, color}) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    
       <View style={{
         backgroundColor: color,
         width: '100%',
@@ -21,7 +22,7 @@ const CustomButton = ({ text, color, onPress }) => {
           {text}
         </Text>
       </View>
-    </TouchableOpacity>
+   
   );
 };
 
@@ -44,7 +45,8 @@ const CustomTextInput = ({ placeholder, keyboardType }) => {
   );
 };
 
-const SignupScreen = ({ navigation }) => {
+const App = () => {
+ const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -54,8 +56,8 @@ const SignupScreen = ({ navigation }) => {
           <CustomTextInput placeholder="Email" keyboardType="email-address" />
           <CustomTextInput placeholder="Password" keyboardType="default" />
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 10 }}>
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-              <Text style={{ fontSize: 16, textAlign: 'center' }}>Already have an account?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+              <Text style= {styles.logintext}>Already have an account?</Text>
             </TouchableOpacity>
           </View>
           <CustomButton text="SIGN UP" color="red" onPress={() => {}} />
@@ -74,7 +76,7 @@ const SignupScreen = ({ navigation }) => {
   );
 };
 
-export default SignupScreen;
+export default App;
 
 const styles = StyleSheet.create({
   container: {

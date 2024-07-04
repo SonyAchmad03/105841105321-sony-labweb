@@ -1,9 +1,8 @@
 import { StyleSheet, View, Text, TextInput, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
-
+import { useNavigation } from '@react-navigation/native';
 const ButtonCustom = ({ text, color, onPress }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
       <View style={{
         backgroundColor: color,
         width: '100%',
@@ -21,7 +20,7 @@ const ButtonCustom = ({ text, color, onPress }) => {
           {text}
         </Text>
       </View>
-    </TouchableOpacity>
+    
   );
 };
 
@@ -44,7 +43,8 @@ const TextInputCustom = ({ placeholder, typekeyboard }) => {
   );
 };
 
-const LoginScreen = ({ navigation }) => {
+const App = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -73,7 +73,7 @@ const LoginScreen = ({ navigation }) => {
   );
 };
 
-export default LoginScreen;
+export default App;
 
 const styles = StyleSheet.create({
   container: {

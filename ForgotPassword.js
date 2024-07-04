@@ -1,9 +1,10 @@
 import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
 import React from 'react';
+import App from './Login';
+// import  { useNavigation } from '@react-navigation/native';
 
-const ButtonCustom = ({ text, color, onPress }) => {
+const ButtonCustom = ({ text, color }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
       <View style={{
         backgroundColor: color,
         width: '100%',
@@ -21,9 +22,9 @@ const ButtonCustom = ({ text, color, onPress }) => {
           {text}
         </Text>
       </View>
-    </TouchableOpacity>
-  );
-};
+    
+  )
+}
 
 const TextInputCustom = ({ placeholder, typekeyboard }) => {
   return (
@@ -41,10 +42,11 @@ const TextInputCustom = ({ placeholder, typekeyboard }) => {
         fontSize: 18,
       }}
     />
-  );
-};
+  )
+}
 
-const ForgotPasswordScreen = ({ navigation }) => {
+const ForgotPassword = () => {
+// const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -52,14 +54,14 @@ const ForgotPasswordScreen = ({ navigation }) => {
         <View style={styles.form}>
           <Text style={styles.description}>Please enter your email address. You will receive a link to create a new password via email.</Text>
           <TextInputCustom placeholder="Email" typekeyboard="email-address" />
-          <ButtonCustom text="SEND" color="red" onPress={() => {}} />
+          <ButtonCustom text="SEND" color="red" />
         </View>
       </View>
     </View>
-  );
-};
+  )
+}
 
-export default ForgotPasswordScreen;
+export default ForgotPassword;
 
 const styles = StyleSheet.create({
   container: {
