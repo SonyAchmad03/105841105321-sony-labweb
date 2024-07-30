@@ -1,128 +1,102 @@
-import { StyleSheet, Text, View, TextInput, Button, Image } from 'react-native';
-import React, { useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import ImageSlider from 'react-native-image-slider';
 
-const LoginSimak = () => {
-  const [data, setData] = useState({
-    nim: '',
-    password: ''
-  });
-  const [userData, setUserData] = useState(null);
-  const [error, setError] = useState('');
-
-  const onSubmit = () => {
-    axios.post('https://api.beasiswa.unismuh.ac.id/api/login', {
-      username: data.nim,
-      password: data.password
-    })
-      .then(response => {
-        if (response.status === 200) {
-          setUserData(response.data.data);
-          setError('');
-        }
-      })
-      .catch(error => {
-        console.log(error);
-        setError('Ada kesalahan. Silahkan cek kembali nim dan password anda.');
-        setUserData(null);
-      });
-  }
+export default function App() {
+  const images = [
+    require('./assets/baju/baju1.jpeg'),
+    require('./assets/baju/baju2.jpeg'),
+    require('./assets/baju/baju3.jpeg'),
+    require('./assets/baju/baju4.jpeg'),
+    require('./assets/baju/baju5.jpeg'),
+  ];
 
   return (
     <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          onChangeText={(value) => setData({ ...data, nim: value })}
-          placeholder="Nim"
-          placeholderTextColor="#aaa"
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={(value) => setData({ ...data, password: value })}
-          placeholder="Password"
-          placeholderTextColor="#aaa"
-          secureTextEntry
-        />
-        <Button title="Login" onPress={onSubmit} />
-        {error ? <Text style={styles.errorText}>{error}</Text> : null}
-      </View>
-      {userData && (
-        <View style={styles.userDataContainer}>
-          <Text style={styles.userDataText}>ID: {userData.id}</Text>
-          <Text style={styles.userDataText}>Username: {userData.username}</Text>
-          <Text style={styles.userDataText}>Name: {userData.nama}</Text>
-          <Text style={styles.userDataText}>Role: {userData.role}</Text>
-          <Image
-            style={styles.userImage}
-            source={{ uri: `https://simakad.unismuh.ac.id/upload/mahasiswa/${userData.username}.jpg` }}
-          />
-        </View>
-      )}
+      <Text style={styles.title}>Product Gallery</Text>
+      <ImageSlider
+        images={images}
+        autoPlayWithInterval={3000}
+        customSlide={({ index, item, style, width }) => (
+          <View key={index} style={[style, styles.customSlide]}>
+            <Image source={item} style={[styles.customImage, { width: width }]} />
+          </View>
+        )}
+        customButtons={(position, move) => (
+          <View style={styles.buttons}>
+            {images.map((_, index) => (
+              <Text
+                key={index}
+                onPress={() => move(index)}
+                style={index === position ? styles.buttonSelected : styles.button}
+              >
+                {index + 1}
+              </Text>
+            ))}
+          </View>
+        )}
+        onPositionChanged={(position) => console.log(`Current position: ${position}`)}
+        onPress={(image, index) => alert(`Image ${index + 1} pressed`)}
+        style={styles.slider}
+      />
     </View>
   );
 }
-
-export default LoginSimak;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#f8f9fa',
     padding: 20,
   },
-  inputContainer: {
-    width: '100%',
-    maxWidth: 400,
-    padding: 20,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-    marginBottom: 20,
-  },
-  input: {
-    height: 50,
-    borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 20,
-    paddingHorizontal: 10,
-    fontSize: 16,
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
     color: '#333',
+    marginBottom: 20,
   },
-  errorText: {
-    color: 'red',
-    marginTop: 10,
-    textAlign: 'center',
-  },
-  userDataContainer: {
-    width: '100%',
-    maxWidth: 400,
-    padding: 20,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+  customSlide: {
+    backgroundColor: '#f1f1f1',
+    borderRadius: 10,
+    overflow: 'hidden',
+    justifyContent: 'center',
     alignItems: 'center',
   },
-  userDataText: {
-    fontSize: 16,
-    color: '#333',
-    marginBottom: 5,
+  customImage: {
+    height: 300,
+    resizeMode: 'contain',
   },
-  userImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginTop: 10,
+  buttons: {
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 10,
+    left: 0,
+    right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    fontSize: 18,
+    color: '#888',
+    margin: 5,
+    padding: 10,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    textAlign: 'center',
+  },
+  buttonSelected: {
+    fontSize: 18,
+    color: '#fff',
+    margin: 5,
+    padding: 10,
+    backgroundColor: '#007bff',
+    borderRadius: 5,
+    textAlign: 'center',
+  },
+  slider: {
+    width: '100%',  // Pastikan slider mengisi lebar kontainer
+    height: 300,    // Sesuaikan tinggi slider jika perlu
   },
 });
